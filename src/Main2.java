@@ -1,6 +1,5 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
+
 
 public class Main2 {
     public static void main(String[] args) {
@@ -12,9 +11,10 @@ public class Main2 {
         Integer[] masOfCounts = new Integer[5];
 
         int count = 0;
+        TreeMap<String, TreeMap<String, Integer>> clients = null;
         while (sc.hasNext() && count < 5) {
             String s = sc.nextLine();
-            if ("exit".equals(s)) {
+            if (s.equals("exit")) {
                 break;
             }
             count++;
@@ -39,6 +39,7 @@ public class Main2 {
                 continue;
             }
 
+
             boolean productAlreadyExists = false;
             for (int i = 0; i < 5; i++) {
                 if (productName.equals(masOfProducts[i])) {
@@ -56,6 +57,34 @@ public class Main2 {
                     }
                 }
             }
+
+            clients = new
+                    TreeMap<String, TreeMap<String, Integer>>();
+
+            if (!clients.containsKey(productName))
+                clients.put(productName, new TreeMap<String, Integer>());
+
+            TreeMap<String, Integer> temp = clients.get(productName);
+
+            if (!temp.containsKey(productName))
+                temp.put(productName, 0);
+
+            Integer oldCount = temp.get(productName);
+            temp.put(productName, oldCount + count);
+        }
+
+        TreeMap<String, Integer> value = null;
+        for (Map.Entry<String, TreeMap<String, Integer>> entry :
+                clients.entrySet()) {
+            String key = entry.getKey();
+            value = entry.getValue();
+            System.out.println(key + ":");
+        }
+
+        for (Map.Entry<String, Integer> product : value.entrySet()) {
+            String keyProduct = product.getKey();
+            Integer valueProduct = product.getValue();
+            System.out.println(keyProduct + " " + valueProduct);
         }
 
         String[] sortedProducts = new String[5];
@@ -96,8 +125,8 @@ public class Main2 {
         for (int j = 0; j < 3; j++) {
             indexOfMostPopularProduct = 0;
             for (int i = 0; i < 5; i++) {
-                if(masOfCounts[i] >
-                        masOfCounts[indexOfMostPopularProduct]){
+                if (masOfCounts[i] >
+                        masOfCounts[indexOfMostPopularProduct]) {
                     indexOfMostPopularProduct = i;
                 }
             }
@@ -109,3 +138,4 @@ public class Main2 {
         }
     }
 }
+
